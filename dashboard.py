@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title="DEPLOYMENT", page_icon=None,layout="wide", initial_sidebar_state="auto",menu_items=None)
+st.set_page_config(page_title="PROJECT", page_icon=None,layout="wide", initial_sidebar_state="auto",menu_items=None)
                 #    {'About': "# This is a header. This is an *extremely* cool app!"}
 
 import streamlit.components.v1 as components
