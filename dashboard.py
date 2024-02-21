@@ -8,7 +8,7 @@ import pandas as pd
 from datetime import datetime
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-menu = st.sidebar.selectbox("Sub menu",('Customizable Dashboard','Drag & Drop Custom Charts','Embedded Dashboard','Machine Learning App','AI-Assistant'))
+menu = st.sidebar.selectbox("Sub menu",('Customizable Dashboard','Drag & Drop Custom Charts','Embedded Dashboard','Machine Learning App'))
 if menu == 'Customizable Dashboard':
     pilihdata = st.sidebar.radio('Pilih Data',['Sample1','Upload Data'])
     # df = pd.read_excel('Rekap_wilayah.xlsx')
@@ -139,5 +139,27 @@ elif menu =='Embedded Dashboard':
         <div class='tableauPlaceholder' id='viz1695126013832' style='position: relative'><noscript><a href='#'><img alt='Dashboard 4 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;gr&#47;grip_faskes&#47;Dashboard4&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='grip_faskes&#47;Dashboard4' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;gr&#47;grip_faskes&#47;Dashboard4&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1695126013832');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='400px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
         ''',height=400)
 elif menu == 'Machine Learning App':
-    pass
+    st.subheader("Classification Prediction")
+    import joblib
+    import numpy as np
+    model= open("model.pkl", "rb")
+    knn_clf=joblib.load(model)
+
+    st.sidebar.title("Features")
+    #Intializing
+    sl = st.sidebar.slider(label="Sepal Length (cm)",value=5.2,min_value=0.0, max_value=8.0, step=0.1)
+    sw = st.sidebar.slider(label="Sepal Width (cm)",value=3.2,min_value=0.0, max_value=8.0, step=0.1)
+    pl = st.sidebar.slider(label="Petal Length (cm)",value=4.2,min_value=0.0, max_value=8.0, step=0.1)
+    pw = st.sidebar.slider(label="Petal Width (cm)",value=1.2,min_value=0.0, max_value=8.0, step=0.1)
+
+    if st.button("Click Here to Classify"):
+        dfvalues = pd.DataFrame(list(zip([sl],[sw],[pl],[pw])),columns =['sepal_length', 'sepal_width', 'petal_length', 'petal_width'])
+        input_variables = np.array(dfvalues[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']])
+        prediction = knn_clf.predict(input_variables)
+        if prediction == 1:
+            st.write('setosa')
+        elif prediction == 2:
+            st.write('versicolor')
+        elif prediction == 3:
+            st.write('virginica')
 
